@@ -9,6 +9,36 @@ class _AlcoolGasolinaState extends State<AlcoolGasolina> {
 
   var _textEditingControllerAlcool = TextEditingController();
   var _textEditingControllerGasolina = TextEditingController();
+  String _mensagemUsuario = "";
+
+  void _calcularVantagem(){
+    double _valorAlcool = double.tryParse(_textEditingControllerAlcool.text);
+    double _valorGasolina = double.tryParse(_textEditingControllerGasolina.text);
+
+    if(_valorAlcool == null){
+      _mensagemUsuario = "Valor do álcool inválido";
+      return;
+    }
+    if(_valorGasolina == null){
+      _mensagemUsuario = "Valor da gasolina inválido";
+      return;
+    }
+
+    if(_valorAlcool > (_valorGasolina *0.7))
+      _mensagemUsuario = "Abasteça com gasolina";
+    else
+      _mensagemUsuario = "Abasteça com álcool";
+
+    _limparCampos();
+
+    setState(() {});
+
+  }
+
+  void _limparCampos(){
+    _textEditingControllerGasolina.text = "";
+    _textEditingControllerAlcool.text = "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +89,7 @@ class _AlcoolGasolinaState extends State<AlcoolGasolina> {
                   color: Colors.blue,
                   textColor: Colors.white,
                   padding: EdgeInsets.all((15)),
-                  onPressed: (){
-                    setState(() {
-
-                    });
-                  },
+                  onPressed: () => _calcularVantagem(),
                   child: Text("Calcular",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -72,7 +98,7 @@ class _AlcoolGasolinaState extends State<AlcoolGasolina> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20),
-                  child: Text("Resultado",
+                  child: Text(_mensagemUsuario,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 22,
